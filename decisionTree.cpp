@@ -2,6 +2,7 @@
     决策树算法实现
     Garker-gan
     2020-11-24 输入输出实现
+    2020-11-27 增加信息熵的计算
  */
 #include<iostream>
 #include<algorithm>
@@ -10,20 +11,27 @@
 #include<vector>
 #include<map>
 #include<set>
+#include<math.h>
 using namespace std;
 
 vector<string>data_attribute;       //属性 色泽,根蒂,敲声,纹理
 map<string,vector<string>>data_attribute_value;     //每个属性对应的属性值,如 色泽={青绿,乌黑,浅白}
 map<string,vector<string>>data_table;            //建立训练集的表格
 int N;      //样本数量
-
 class decisionTree
 {
 private:
     /* data */
 public:
-    decisionTree(/* args */);
+    // decisionTree(map<string,vector<string>>data_table,vector<string>data_attribute);
+    decisionTree();
     ~decisionTree();
+
+    // 计算信息熵
+    double cal_Entropy();
+
+    // 计算信息增益值寻找最佳属性
+    string findBestAttribute();
 };
 
 decisionTree::decisionTree(/* args */)
@@ -35,6 +43,33 @@ decisionTree::~decisionTree()
 {
 }
 
+// 计算信息熵
+double decisionTree::cal_Entropy()
+{
+    map<string,int>class_map;
+    for(int i = 0;i < data_attribute.size();i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            string attr_value_name = data_table[data_attribute[i]][j];
+            class_map[attr_value_name]++;
+        }
+    }
+    map<string,int>::iterator it = class_map.begin();
+    double Ent = 0;
+    for(;it != class_map.end();it++)
+    {
+        double p = (double)it->second/N;
+        Ent -= (double)p * (log(p)/log(2));
+    }
+    return Ent;
+}   
+
+// 计算信息增益值寻找最佳属性
+string decisionTree::findBestAttribute()
+{
+
+}
 
 //输入函数
 void date_input()
@@ -105,9 +140,13 @@ void data_print()
     }
 }
 
+
+
 int main()
 {
     date_input();
-    data_print();
+    // data_print();
+    cout<<"信息熵为："<<endl;
+    cout<<cal_Entropy()<<endl;
     return 0;
 } 
