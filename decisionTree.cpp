@@ -4,6 +4,7 @@
     2020-11-24 输入输出实现
     2020-11-27 增加信息熵的计算
     2020-11-28 增加信息增益的计算
+    2020-11-28 建立决策树模型（bug）
  */
 #include<iostream>
 #include<algorithm>
@@ -262,7 +263,6 @@ void decisionTree::generate_ChildNode()
             cout<<"test"<<endl;
 			//子节点再调用generate_ChildNode函数
 			// pt->generate_ChildNode();
-            node_Attribute = best_Attribute;
             cout<<"end case 3-2"<<endl;
         }
         
